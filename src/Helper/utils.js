@@ -3,6 +3,12 @@ export function getAccessToken(){
     return window.localStorage.getItem('access');
 };
 
+
+// is user authenticated
+export function isUserAuthenticated(){
+    return window.localStorage.getItem('access') ? true : false;
+};
+
 // Retrieve user refresh token
 export function getRefreshToken() {
     return window.localStorage.getItem('refresh');
@@ -20,6 +26,16 @@ export function getUser() {
     }
     return undefined;
 };
+
+export function getUserDetails(){
+    const user = isUserAuthenticated();
+    if(user){
+        const { email, user_id, first_name, last_name } = getUser();
+        return { email, user_id, first_name, last_name };
+    }else{
+        return {}
+    }
+}
 
 export function requestCreator(
     requestMethod, 

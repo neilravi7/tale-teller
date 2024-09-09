@@ -1,16 +1,30 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { PlusIcon } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
+import { PlusIcon, CommandLineIcon } from "@heroicons/react/20/solid";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../redux/actions/auth";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Navigation() {
+
+  const {isAuthenticated} = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    window.localStorage.removeItem('access');
+    window.localStorage.removeItem('refresh');
+    navigate('/');
+
+  }
   return (
-    <Disclosure as="nav" className="bg-white shadow">
+    <Disclosure as="nav" className="bg-white shadow-lg">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -28,16 +42,7 @@ export default function Navigation() {
                   </Disclosure.Button>
                 </div>
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="block h-8 w-auto lg:hidden"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                    alt="Your Company"
-                  />
-                  <img
-                    className="hidden h-8 w-auto lg:block"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                    alt="Your Company"
-                  />
+                  <CommandLineIcon className="hidden h-8 w-auto lg:block"></CommandLineIcon>
                 </div>
                 <div className="hidden md:ml-6 md:flex md:space-x-8">
                   {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
@@ -53,15 +58,16 @@ export default function Navigation() {
                   >
                     Posts
                   </Link>
-                  <Link
+                  {!isAuthenticated && <Link
                     to={"/login"}
                     className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
                   >
                     Login
-                  </Link>
+                  </Link>}
                 </div>
               </div>
-              <div className="flex items-center">
+
+              {isAuthenticated && <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <Link
                     to={"/admin"}
@@ -131,7 +137,7 @@ export default function Navigation() {
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              href="#"
+                              onClick={()=>handleLogout()}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
@@ -145,7 +151,7 @@ export default function Navigation() {
                     </Transition>
                   </Menu>
                 </div>
-              </div>
+              </div>}
             </div>
           </div>
 

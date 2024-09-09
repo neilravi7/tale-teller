@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import Register from "../Users/Register";
-// import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 // import { fetchPostData } from "../../redux/actions/posts";
 import HomePostsLists from "./HomePostList";
 
 const Homepage = () => {
-  // const posts = useSelector((state) => state.posts);
+  const { isAuthenticated } = useSelector((state) => state.auth.isAuthenticated);
   // const dispatch = useDispatch();
 
   // useEffect(() => {
@@ -13,7 +13,7 @@ const Homepage = () => {
   // },[dispatch])
   return (
     <div>
-      <section
+      {!isAuthenticated && <section
         className="relative bg-white overflow-hidden"
         style={{
           backgroundImage: 'url("flex-ui-assets/elements/pattern-white.svg")',
@@ -88,7 +88,7 @@ const Homepage = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section>}
       {/* Home posts list */}
       <HomePostsLists />
     </div>

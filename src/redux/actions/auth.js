@@ -38,17 +38,20 @@ export function authenticateUser(user){
     }
   }
   
-  export function logoutUser(){
-    return{
-      type:LOGOUT_USER
-    }
+export function logoutUser(){
+  return{
+    type:LOGOUT_USER
   }
-  
-  export function clearAuthState(){
-    return{
-      type:CLEAR_AUTH_STATE,
-    }
+}
+
+
+export function clearAuthState(){
+  return{
+    type:CLEAR_AUTH_STATE,
   }
+}
+
+
   
 
 //! Login Actions Handler
@@ -82,12 +85,12 @@ export function login(email, password) {
         console.error(error.message);
         dispatch(failedLogin(error.message));
 
-        console.log("Resetting login state in 3 seconds...");
+        // console.log("Resetting login state in 3 seconds...");
 
         setTimeout(() => {
           console.log("Resetting login state now...");
           dispatch(clearAuthState());
-        }, 3000);
+        }, 7000);
       });
   };
 }

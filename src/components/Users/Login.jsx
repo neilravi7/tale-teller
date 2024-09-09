@@ -1,13 +1,19 @@
-import React, { useState } from "react";
-
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from '../../redux/actions/auth'
 
 const Login = () => {
+  const { error, inProgress, isAuthenticated } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     password: "",
     email: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
   //handle form change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -15,15 +21,23 @@ const Login = () => {
 
   //handle form submit
   const handleSubmit = (e) => {
+    setIsLoading(true);
     e.preventDefault();
-
+    dispatch(login(formData.email, formData.password));
     // reset form
     setFormData({
       password: "",
       email: "",
     });
+    setIsLoading(false);
   };
   //store data
+
+  useEffect(()=>{
+    if(isAuthenticated){
+      navigate("/");
+    }
+  })
 
   return (
     <section className="py-16 xl:pb-56 bg-white overflow-hidden">
@@ -32,9 +46,31 @@ const Login = () => {
           {/* <a className="mb-36 inline-block" href="#">
             <img src="flaro-assets/logos/flaro-logo-black-xl.svg" alt='top' />
           </a> */}
+
           <h2 className="mb-4 text-4xl md:text-4xl text-center font-bold font-heading tracking-px-n leading-tight">
             Login to your account
           </h2>
+
+          {error && <div className="alert flex flex-row items-center bg-red-200 p-5 rounded border-b-2 border-red-300">
+              <div className="alert-icon flex items-center bg-red-100 border-2 border-red-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+                <span className="text-red-500">
+                  <svg fill="currentColor" viewBox="0 0 20 20" className="h-6 w-6">
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <div className="alert-content ml-4">
+                <div className="alert-title font-semibold text-lg text-red-800">Error</div>
+                <div className="alert-description text-sm text-red-600">
+                  {error}
+                </div>
+              </div>
+          </div>
+          }
           <p className="mb-12 font-medium text-lg text-gray-600 leading-normal">
             Enter your details below.
           </p>
@@ -63,10 +99,11 @@ const Login = () => {
               />
             </label>
             <button
-              className="mb-8 py-4 px-9 w-full text-white font-semibold border border-indigo-700 rounded-xl shadow-4xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200"
+              className="mb-4 inline-block py-3 px-7 w-full leading-6 text-green-50 font-medium text-center bg-green-500 hover:bg-green-600 focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 rounded-md"
               type="submit"
+              disabled={inProgress}
             >
-              Login Account
+              { isLoading ? "Logging..." : "Login"}
             </button>
 
             <p className="font-medium">
