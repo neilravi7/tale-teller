@@ -1,13 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signUp } from "../../redux/actions/auth";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Register = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    username: "",
+    password2: "",
   });
+
+  const { error, inProgress } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [success, setSuccess] = useState(false);
 
   //handle form change
   const handleChange = (e) => {
@@ -17,39 +24,79 @@ const Register = () => {
   //handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { email, password, password2 } = formData;
+    dispatch(signUp(email, password, password2)).then((result) => {
+      if (result && result.success) {
+        setSuccess(true);
+        navigate("/login")
+      }
+    })
+
     // reset form
     setFormData({
       email: "",
       password: "",
-      username: "",
+      password2: "",
     });
   };
 
   return (
-    <form className="w-full lg:w-1/2">
+    <form className="w-full lg:w-1/2" onSubmit={handleSubmit}>
+      {success && <div className="alert flex flex-row items-center bg-green-200 p-5 rounded border-b-2 border-green-300">
+        <div className="alert-icon flex items-center bg-green-100 border-2 border-green-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+          <span className="text-green-500">
+            <svg fill="currentColor" viewBox="0 0 20 20" className="h-6 w-6">
+              <path
+                fillRule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </span>
+        </div>
+        <div className="alert-content ml-4">
+          <div className="alert-title font-semibold text-lg text-green-800">
+            Success
+          </div>
+          <div className="alert-description text-sm text-green-600">
+            Account Created Successfully
+          </div>
+        </div>
+      </div>
+      }
+      {error && <div className="alert flex flex-row items-center bg-red-200 p-5 rounded border-b-2 border-red-300">
+        <div className="alert-icon flex items-center bg-red-100 border-2 border-red-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+          <span className="text-red-500">
+            <svg fill="currentColor" viewBox="0 0 20 20" className="h-6 w-6">
+              <path
+                fillRule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </span>
+        </div>
+        <div className="alert-content ml-4">
+          <div className="alert-title font-semibold text-lg text-red-800">Error</div>
+          <div className="alert-description text-sm text-red-600">
+            {error}
+          </div>
+        </div>
+      </div>
+      }
       <div className="flex flex-col items-center p-10 xl:px-24 xl:pb-12 bg-white lg:max-w-xl lg:ml-auto rounded-4xl shadow-2xl shadow-gray-500/50">
         {/* <img
           className="relative -top-2 -mt-16 mb-6 h-16"
           src="flex-ui-assets/logos/flex-circle-green.svg"
           alt="post-image"
         /> */}
+
         <h2 className="mb-4 text-2xl md:text-3xl text-coolGray-900 font-bold text-center">
           Join our community
         </h2>
         <h3 className="mb-7 text-base md:text-lg text-coolGray-500 font-medium text-center">
           Lorem ipsum dolor sit amet, consectetur adipisng.
         </h3>
-        <label className="mb-4 flex flex-col w-full">
-          <span className="mb-1 text-coolGray-800 font-medium">Username</span>
-          <input
-            className="py-3 px-3 leading-5 w-full text-coolGray-400 font-normal border border-coolGray-200 outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 rounded-lg shadow-sm"
-            type="text"
-            placeholder="Enter your username"
-            value={formData.username}
-            onChange={handleChange}
-            name="username"
-          />
-        </label>
         <label className="mb-4 flex flex-col w-full">
           <span className="mb-1 text-coolGray-800 font-medium">Email</span>
           <input
@@ -72,9 +119,21 @@ const Register = () => {
             name="password"
           />
         </label>
+        <label className="mb-4 flex flex-col w-full">
+          <span className="mb-1 text-coolGray-800 font-medium">Confirm Password</span>
+          <input
+            className="py-3 px-3 leading-5 w-full text-coolGray-400 font-normal border border-coolGray-200 outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 rounded-lg shadow-sm"
+            type="password"
+            placeholder="Confirm Password"
+            value={formData.password2}
+            onChange={handleChange}
+            name="password2"
+          />
+        </label>
         <button
           className="mb-4 inline-block py-3 px-7 w-full leading-6 text-green-50 font-medium text-center bg-green-500 hover:bg-green-600 focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 rounded-md"
           type="submit"
+          disabled={inProgress}
         >
           Get Started
         </button>

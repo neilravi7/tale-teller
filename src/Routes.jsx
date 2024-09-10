@@ -4,7 +4,8 @@ import PostDetails from "./components/Posts/PostDetails";
 import Navigation from "./components/Navigation";
 
 const HomePage = React.lazy(() => import("./components/HomePage"));
-const Login = React.lazy(() => import("./components/Users/Login"))
+const Login = React.lazy(() => import("./components/Users/Login"));
+const PostList = React.lazy(() => import("./components/Posts/PostList"));
 
 const ProjectRoutes = () => {
   return (
@@ -15,6 +16,7 @@ const ProjectRoutes = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/post/:postId" element={<PostDetails />} />
+          <Route path="/posts" element={<PostList />} />
         </Routes>
       </Router>
     </React.Suspense>

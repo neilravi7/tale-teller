@@ -1,4 +1,14 @@
-import { LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILED, AUTHENTICATE_USER, LOGOUT_USER, CLEAR_AUTH_STATE, UPDATE_USER_DETAILS } from "../actions/actionType";
+import { 
+    LOGIN_START, 
+    LOGIN_SUCCESS, 
+    LOGIN_FAILED, 
+    AUTHENTICATE_USER, 
+    LOGOUT_USER, 
+    CLEAR_AUTH_STATE, 
+    UPDATE_USER_DETAILS,
+    SIGN_UP_START,
+    SIGN_UP_FAILED,
+} from "../actions/actionType";
 import { isUserAuthenticated, getUserDetails } from "../../Helper/utils";
 
 
@@ -14,12 +24,14 @@ const initialState = {
 
 export default function auth(state = initialState, action){
     switch(action.type){
+
+        case SIGN_UP_START:
         case LOGIN_START:
             return{ 
                 ...state, 
                 inProgress:false,
             }
-        
+
         case LOGIN_SUCCESS:
             return{ 
                 ...state, 
@@ -29,6 +41,7 @@ export default function auth(state = initialState, action){
                 error:null,
             }
 
+        case SIGN_UP_FAILED:
         case LOGIN_FAILED:
             return{ 
                 ...state, 

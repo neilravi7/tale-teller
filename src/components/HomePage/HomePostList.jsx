@@ -16,9 +16,9 @@ const HomePostsLists = () => {
             <section className="text-white bg-white body-font">
                 <div className="container px-4 py-15 mx-auto">
                     <div className="flex flex-col">
-                        <div className="h-1 bg-green-500 rounded overflow-hidden">
+                        {/* <div className="h-1 bg-green-500 rounded overflow-hidden"> */}
                             {/* <div className="w-24 h-full bg-indigo-500" /> */}
-                        </div>
+                        
                         <div className="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
                             <h1 className="sm:w-2/5 text-black font-medium title-font text-2xl mb-2 sm:mb-0">
                                 Our Trending Blog's

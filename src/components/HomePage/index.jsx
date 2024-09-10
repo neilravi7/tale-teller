@@ -13,7 +13,7 @@ const Homepage = () => {
   // },[dispatch])
   return (
     <div>
-      {!isAuthenticated && <section
+      {isAuthenticated && <section
         className="relative bg-white overflow-hidden"
         style={{
           backgroundImage: 'url("flex-ui-assets/elements/pattern-white.svg")',
