@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const Navigation = () => {
     return (
         <>
@@ -20,15 +21,31 @@ const Navigation = () => {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <a className="nav-link" href="index.html">
+                                <Link className="nav-link" to={"/home"}>
                                     HOME
-                                </a>
+                                </Link>
                             </li>
-                             <li className="nav-item">
-                                <a className="nav-link" href="about.html">
-                                    POST
-                                </a>
+                            <li className="nav-item">
+                                <Link className="nav-link" to={"/posts"}>
+                                    POSTS
+                                </Link>
                             </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to={"/profile"}>
+                                    PROFILE
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to={"/auth/login"}>
+                                    LOGIN
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to={"/auth/register"}>
+                                    SIGN UP
+                                </Link>
+                            </li>
+                            
                             {/*<li className="nav-item">
                                 <a className="nav-link" href="contact.html">
                                     Contact
