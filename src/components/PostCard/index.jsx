@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './card.css';
+
 function PostCard(props) {
     const maxLength = 100;
+
+    const [loading, setLoading] = useState(true);
+
+    const handleOnLoad = (e) => {
+        setLoading(false);
+    }
 
     const post = props.post;
     return (
         <div className="col-lg-4 mb-5">
-            <div className="card h-100  border-0">
+            <div className={loading ? 'card h-100  border-0 loading-skeleton': 'card h-100  border-0'}>
+               
                 <img
-                    className="card-img-top"
+                    height={"200px"}
+                    width={"550px"}
+                    className="card-img-top bg-secondary"
                     // src="https://dummyimage.com/600x350/adb5bd/495057"
                     src={post.postImage}
+                    onLoad={()=>handleOnLoad()}
                     alt="..."
                 />
                 <div className="card-body p-4 text-start">
