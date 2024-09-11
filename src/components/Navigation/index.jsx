@@ -4,9 +4,9 @@ const Navigation = () => {
         <>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container px-5 py-3">
-                    <a className="navbar-brand" href="index.html">
+                    <Link className="navbar-brand" to={"/home"}>
                         Start Bootstrap
-                    </a>
+                    </Link>
                     <button
                         className="navbar-toggler"
                         type="button"

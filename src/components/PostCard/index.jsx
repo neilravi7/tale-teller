@@ -1,28 +1,30 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 function PostCard(props) {
+    const maxLength = 100;
+
+    const post = props.post;
     return (
         <div className="col-lg-4 mb-5">
             <div className="card h-100  border-0">
                 <img
                     className="card-img-top"
-                    src="https://dummyimage.com/600x350/adb5bd/495057"
+                    // src="https://dummyimage.com/600x350/adb5bd/495057"
+                    src={post.postImage}
                     alt="..."
                 />
-                <div className="card-body p-4">
+                <div className="card-body p-4 text-start">
                     <div className="badge bg-primary bg-gradient rounded-pill mb-2">
-                        Media
+                        {post.category.name}
                     </div>
-                    <a
+                    <Link
                         className="text-decoration-none link-dark stretched-link"
-                        href="#!"
+                        to={`/post/${post.slug}`}
                     >
-                        <h5 className="card-title mb-3">Another blog post title</h5>
-                    </a>
+                        <h5 className="card-title mb-3">{post.title}</h5>
+                    </Link>
                     <p className="card-text mb-0">
-                        This text is a bit longer to illustrate the adaptive height of
-                        each card. Some quick example text to build on the card title
-                        and make up the bulk of the card's content.
+                        {post.content.length > maxLength ? post.content.slice(0, maxLength) + "..." : post.content}
                     </p>
                 </div>
                 <div className="card-footer p-4 pt-0 bg-transparent border-top-0">
