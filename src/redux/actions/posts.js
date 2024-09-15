@@ -1,4 +1,4 @@
-import { UPDATE_POSTS } from "./actionType";
+import { UPDATE_POSTS, CREATE_POST } from "./actionType";
 import { API_URL } from "../../Helper/urls";
 
 export function updatePosts(posts){
@@ -8,10 +8,9 @@ export function updatePosts(posts){
     }
 }
 
-
 export function fetchPostData(){
     return(dispatch) => {
-        fetch(API_URL.fetchPost())
+        fetch(API_URL.fetchAllPost())
             .then((response)=>{
                 return response.json();
             })

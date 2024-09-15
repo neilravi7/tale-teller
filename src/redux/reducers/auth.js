@@ -18,6 +18,7 @@ const  isAuthenticated = isUserAuthenticated();
 const initialState = { 
     user:userInfo,
     error:null,
+    success:false,
     isAuthenticated:isAuthenticated,
     inProgress:false
 }
@@ -30,6 +31,7 @@ export default function auth(state = initialState, action){
             return{ 
                 ...state, 
                 inProgress:false,
+                success:false
             }
 
         case LOGIN_SUCCESS:
@@ -38,6 +40,7 @@ export default function auth(state = initialState, action){
                 user:action.user,
                 isAuthenticated:true,
                 inProgress:false,
+                success:true,
                 error:null,
             }
 
@@ -47,6 +50,7 @@ export default function auth(state = initialState, action){
                 ...state, 
                 inProgress:true,
                 isAuthenticated:false,
+                success:false,
                 error:action.error,
         }
         case AUTHENTICATE_USER:
@@ -65,15 +69,13 @@ export default function auth(state = initialState, action){
             return{
                 ...state,
                 error:null,
-                inProgress:false
+                inProgress:false,
+                success:false
             }
         case UPDATE_USER_DETAILS:
             return{ 
                 ...state, 
-                user:{
-                    ...action.user, // some key level problem // Spread the existing properties of action.user
-                    id:action.user.user_id // Override or add the id property with user_id value
-                },
+                user:action.user
             }
         default:
             return{

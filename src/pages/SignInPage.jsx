@@ -1,7 +1,20 @@
+import { useSelector } from 'react-redux'
 import LoginForm from '../components/Forms/AuthForm/LoginForm'
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 const SignInPage = () => {
+    const {isAuthenticated} = useSelector((state) => state.auth);
+    const navigate = useNavigate();
+
+    
+    useEffect(()=>{
+        if(isAuthenticated){
+            navigate("/home");
+        }
+    })
+    
     return (
         <>
             <div className="text-center mb-5">

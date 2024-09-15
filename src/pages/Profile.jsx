@@ -1,15 +1,51 @@
+import { useLocation, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { requestCreator } from "../Helper/utils"
+import { API_URL } from "../Helper/urls"
+import { toast } from 'react-toastify';
+
+
 const Profile = () => {
+    const { isAuthenticated, user } = useSelector((state) => state.auth);
+    const location = useLocation();
+    const [userData, setUserData] = useState({});
+
+    useEffect(()=>{
+        if(isAuthenticated && user){
+            const userId = user.user_id;
+            const URL = API_URL.getUserProfile(userId);
+            const requestOption = requestCreator("GET", {}, true);
+            fetch(URL, requestOption)
+            .then((response) => {
+                if(!response.ok){
+                    throw new Error(`Error: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setUserData(
+                    data
+                )
+                toast.success("Profile data fetch successfully");
+            }).catch((error)=>{
+                toast.error(error.message);
+            })
+        }
+    },[]);
+
+    if (!isAuthenticated) {
+        return <Navigate to="/auth/login" state={{ from: location }} replace />
+    }
+
+    console.log("userData: ", userData);
+    
     return (
         <section className="bg-light py-3 py-md-5 py-xl-8">
             <div className="container">
                 <div className="row justify-content-md-center">
                     <div className="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
                         <h2 className="mb-4 display-5 text-center">Profile</h2>
-                        <p className="text-secondary text-center lead fs-4 mb-5">
-                            The Profile page is your digital hub, where you can fine-tune your
-                            experience. Here's a closer look at the settings you can expect to
-                            find in your profile page.
-                        </p>
                         <hr className="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle" />
                     </div>
                 </div>
@@ -21,24 +57,24 @@ const Profile = () => {
                             <div className="col-12">
                                 <div className="card widget-card border-light shadow-sm">
                                     <div className="card-header text-bg-primary">
-                                        Welcome, Ethan Leo
+                                        Welcome, 
                                     </div>
                                     <div className="card-body">
                                         <div className="text-center mb-3">
                                             <img
-                                                src="./assets/img/profile-img-1.jpg"
+                                                src=""
                                                 className="img-fluid rounded-circle"
-                                                alt="Luna John"
+                                                alt="profile image"
                                             />
                                         </div>
-                                        <h5 className="text-center mb-1">Ethan Leo</h5>
+                                        <h5 className="text-center mb-1"></h5>
                                         <p className="text-center text-secondary mb-4">
-                                            Project Manager
+                                            Developer
                                         </p>
                                         <ul className="list-group list-group-flush mb-4">
                                             <li className="list-group-item d-flex justify-content-between align-items-center">
                                                 <h6 className="m-0">Followers</h6>
-                                                <span>7,854</span>
+                                                <span></span>
                                             </li>
                                             <li className="list-group-item d-flex justify-content-between align-items-center">
                                                 <h6 className="m-0">Following</h6>
@@ -54,84 +90,6 @@ const Profile = () => {
                                                 Follow
                                             </button>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-12">
-                                <div className="card widget-card border-light shadow-sm">
-                                    <div className="card-header text-bg-primary">
-                                        Social Accounts
-                                    </div>
-                                    <div className="card-body">
-                                        <a
-                                            href="#!"
-                                            className="d-inline-block bg-dark link-light lh-1 p-2 rounded"
-                                        >
-                                            <i className="bi bi-youtube" />
-                                        </a>
-                                        <a
-                                            href="#!"
-                                            className="d-inline-block bg-dark link-light lh-1 p-2 rounded"
-                                        >
-                                            <i className="bi bi-twitter-x" />
-                                        </a>
-                                        <a
-                                            href="#!"
-                                            className="d-inline-block bg-dark link-light lh-1 p-2 rounded"
-                                        >
-                                            <i className="bi bi-facebook" />
-                                        </a>
-                                        <a
-                                            href="#!"
-                                            className="d-inline-block bg-dark link-light lh-1 p-2 rounded"
-                                        >
-                                            <i className="bi bi-linkedin" />
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-12">
-                                <div className="card widget-card border-light shadow-sm">
-                                    <div className="card-header text-bg-primary">About Me</div>
-                                    <div className="card-body">
-                                        <ul className="list-group list-group-flush mb-0">
-                                            <li className="list-group-item">
-                                                <h6 className="mb-1">
-                                                    <span className="bii bi-mortarboard-fill me-2" />
-                                                    Education
-                                                </h6>
-                                                <span>M.S Computer Science</span>
-                                            </li>
-                                            <li className="list-group-item">
-                                                <h6 className="mb-1">
-                                                    <span className="bii bi-geo-alt-fill me-2" />
-                                                    Location
-                                                </h6>
-                                                <span>Mountain View, California</span>
-                                            </li>
-                                            <li className="list-group-item">
-                                                <h6 className="mb-1">
-                                                    <span className="bii bi-building-fill-gear me-2" />
-                                                    Company
-                                                </h6>
-                                                <span>GitHub Inc</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-12">
-                                <div className="card widget-card border-light shadow-sm">
-                                    <div className="card-header text-bg-primary">Skills</div>
-                                    <div className="card-body">
-                                        <span className="badge text-bg-primary">HTML</span>
-                                        <span className="badge text-bg-primary">SCSS</span>
-                                        <span className="badge text-bg-primary">Javascript</span>
-                                        <span className="badge text-bg-primary">React</span>
-                                        <span className="badge text-bg-primary">Vue</span>
-                                        <span className="badge text-bg-primary">Angular</span>
-                                        <span className="badge text-bg-primary">UI</span>
-                                        <span className="badge text-bg-primary">UX</span>
                                     </div>
                                 </div>
                             </div>
@@ -946,3 +904,7 @@ const Profile = () => {
 }
 
 export default Profile;
+
+
+
+

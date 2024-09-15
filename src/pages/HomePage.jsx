@@ -22,7 +22,7 @@ export default function Homepage() {
             {/* Blog Section */}
             <section className="py-5 bg-light">
                 <div className="container px-5 my-5 ">
-                    <div className="row gx-5 justify-content-center">
+                    {/* <div className="row gx-5 justify-content-center">
                         <div className="col-lg-8 col-xl-6">
                             <div className="text-center">
                                 <h2 className="fw-bolder">From our blog</h2>
@@ -32,11 +32,11 @@ export default function Homepage() {
                                 </p>
                             </div>
                         </div>
-                    </div>
-                    <div className="row gx-5">
-                        {/* Post Card components */}
+                    </div> */}
+                    {/* Post Card components */}
+                    {/* <div className="row gx-5">
                         { posts.map((post, index) => (<PostCard key={index} post={post}/>))}
-                    </div>
+                    </div> */}
                     {/* Call to action*/}
                     <Aside/>
                 </div>

@@ -6,7 +6,7 @@ function Aside(props) {
             <div className="d-flex align-items-center justify-content-between flex-column flex-xl-row text-center text-xl-start">
                 <div className="mb-4 mb-xl-0">
                     <div className="fs-3 fw-bold text-white">
-                        New products, delivered to you.
+                        New Posts, delivered to you.
                     </div>
                     <div className="text-white-50">
                         Sign up for our newsletter for the latest updates.

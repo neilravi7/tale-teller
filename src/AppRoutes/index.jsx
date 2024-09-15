@@ -5,11 +5,13 @@ import {
     HomePage, 
     PostDetailPage, 
     PostHomePage, 
-    Profile, 
+    Profile,
+    ProfilePage, 
     SignInPage, 
     SignUpPage,
     NotFound, 
 } from "../pages";
+import PostPage from '../pages/PostPage';
 
 
 function AppRoutes(props) {
@@ -20,7 +22,7 @@ function AppRoutes(props) {
           <Route path='/' element={<AppLayout />}>
             <Route path={'/'} element={<HomePage />} />              
             <Route path="/home" element={<Navigate to="/"/> } />
-            <Route path={'/profile'} element={<Profile />} />
+            <Route path={'/profile'} element={<ProfilePage />} />
             <Route path={'/posts'} element={<PostHomePage />} />
             <Route path={'/post/:postSlug'} element={<PostDetailPage />} />
             <Route path='*' element={<NotFound />}/>
@@ -28,6 +30,9 @@ function AppRoutes(props) {
           <Route path={'/auth'} element={<AuthLayout />} >
             <Route path={'/auth/login'} element={<SignInPage />} />
             <Route path={'/auth/register'} element={<SignUpPage />} />
+          </Route>
+          <Route path={'/post'} element={<AuthLayout />} >
+            <Route path={'/post/create'} element={<PostPage/>}></Route>
           </Route>
         </Routes>
       </Router>

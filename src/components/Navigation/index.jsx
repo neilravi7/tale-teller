@@ -1,11 +1,27 @@
 import { Link } from "react-router-dom";
+import { logoutUser } from "../../redux/actions/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+
 const Navigation = () => {
+    const { isAuthenticated } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+
+    function handleLogout() {
+        dispatch(logoutUser());
+        window.localStorage.removeItem("access");
+        window.localStorage.removeItem("refresh");
+        window.localStorage.removeItem('userInfo');
+        toast.success("User Logout Successfully");
+    }
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container px-5 py-3">
                     <Link className="navbar-brand" to={"/home"}>
-                        Start Bootstrap
+                        <h1 className="display-5 fw-bolder text-white mb-2">
+                            Tale Taler
+                        </h1>
                     </Link>
                     <button
                         className="navbar-toggler"
@@ -35,33 +51,39 @@ const Navigation = () => {
                                     PROFILE
                                 </Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to={"/auth/login"}>
-                                    LOGIN
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to={"/auth/register"}>
-                                    SIGN UP
-                                </Link>
-                            </li>
-                            
-                            {/*<li className="nav-item">
-                                <a className="nav-link" href="contact.html">
-                                    Contact
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="pricing.html">
-                                    Pricing
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="faq.html">
-                                    FAQ
-                                </a>
-                            </li>
-                            <li className="nav-item dropdown">
+
+                            {!isAuthenticated &&
+                                <>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to={"/auth/login"}>
+                                            LOGIN
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to={"/auth/register"}>
+                                            SIGN UP
+                                        </Link>
+                                    </li>
+                                </>
+                            }
+
+                            {isAuthenticated &&
+                                <>
+                                    <li className="nav-item">
+                                        <Link to="/post/create" className="btn btn-success btn-lg">
+                                            ADD NEW POST
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" onClick={() => handleLogout()}>
+                                            LOGOUT
+                                        </Link>
+                                    </li>
+                                </>
+
+                            }
+
+                            {/* <li className="nav-item dropdown">
                                 <a
                                     className="nav-link dropdown-toggle"
                                     id="navbarDropdownBlog"
@@ -87,6 +109,22 @@ const Navigation = () => {
                                         </a>
                                     </li>
                                 </ul>
+                            </li> */}
+
+                            {/*<li className="nav-item">
+                                <a className="nav-link" href="contact.html">
+                                    Contact
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="pricing.html">
+                                    Pricing
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="faq.html">
+                                    FAQ
+                                </a>
                             </li>
                             <li className="nav-item dropdown">
                                 <a

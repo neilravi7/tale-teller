@@ -1,119 +1,94 @@
-import React from 'react';
+import { useState } from 'react';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { login } from '../../../redux/actions/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Alert from 'react-bootstrap/Alert';
+import { useLocation } from 'react-router-dom';
 
 function LoginForm(props) {
+    const location = useLocation();
+    const fromLocation = location.state?.from?.pathname || '/';
+    
+    const { error, inProgress, success,  } = useSelector((state) => state.auth)
+    const navigate = useNavigate();
+    const [validated, setValidated] = useState(false);
+    const dispatch = useDispatch();
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+
+    function handleInput(e) {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.stopPropagation();
+        }
+        setValidated(true);
+        dispatch(login(formData.email, formData.password))
+        if(success){
+            toast.success("Login successfully");
+        }
+        setFormData({
+            email: "",
+            password: "",
+            password2: "",
+        });
+        navigate(fromLocation);
+    };
+
     return (
-        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
-            {/* Name input*/}
-            <div className="form-floating mb-3">
-                <input
-                    className="form-control"
-                    id="name"
-                    type="text"
-                    placeholder="Enter your name..."
-                    data-sb-validations="required"
-                    data-sb-can-submit="no"
-                />
-                <label htmlFor="name">Full name</label>
-                <div
-                    className="invalid-feedback"
-                    data-sb-feedback="name:required"
-                >
-                    A name is required.
+        <>            
+            {
+                error && 
+                <div className='container'>
+                    <Alert variant={"danger"}>
+                        {error}
+                    </Alert>
                 </div>
-            </div>
-            {/* Email address input*/}
-            <div className="form-floating mb-3">
-                <input
-                    className="form-control"
-                    id="email"
-                    type="email"
-                    placeholder="name@example.com"
-                    data-sb-validations="required,email"
-                    data-sb-can-submit="no"
-                />
-                <label htmlFor="email">Email address</label>
-                <div
-                    className="invalid-feedback"
-                    data-sb-feedback="email:required"
-                >
-                    An email is required.
-                </div>
-                <div className="invalid-feedback" data-sb-feedback="email:email">
-                    Email is not valid.
-                </div>
-            </div>
-            {/* Phone number input*/}
-            <div className="form-floating mb-3">
-                <input
-                    className="form-control"
-                    id="phone"
-                    type="tel"
-                    placeholder="(123) 456-7890"
-                    data-sb-validations="required"
-                    data-sb-can-submit="no"
-                />
-                <label htmlFor="phone">Phone number</label>
-                <div
-                    className="invalid-feedback"
-                    data-sb-feedback="phone:required"
-                >
-                    A phone number is required.
-                </div>
-            </div>
-            {/* Message input*/}
-            <div className="form-floating mb-3">
-                <textarea
-                    className="form-control"
-                    id="message"
-                    type="text"
-                    placeholder="Enter your message here..."
-                    style={{ height: 87 }}
-                    data-sb-validations="required"
-                    data-sb-can-submit="no"
-                    defaultValue={""}
-                />
-                <label htmlFor="message">Message</label>
-                <div
-                    className="invalid-feedback"
-                    data-sb-feedback="message:required"
-                >
-                    A message is required.
-                </div>
-            </div>
-            {/* Submit success message*/}
-            {/**/}
-            {/* This is what your users will see when the form*/}
-            {/* has successfully submitted*/}
-            <div className="d-none" id="submitSuccessMessage">
-                <div className="text-center mb-3">
-                    <div className="fw-bolder">Form submission successful!</div>
-                    To activate this form, sign up at
-                    <br />
-                    <a href="https://startbootstrap.com/solution/contact-forms">
-                        https://startbootstrap.com/solution/contact-forms
-                    </a>
-                </div>
-            </div>
-            {/* Submit error message*/}
-            {/**/}
-            {/* This is what your users will see when there is*/}
-            {/* an error submitting the form*/}
-            <div className="d-none" id="submitErrorMessage">
-                <div className="text-center text-danger mb-3">
-                    Error sending message!
-                </div>
-            </div>
-            {/* Submit Button*/}
-            <div className="d-grid">
-                <button
-                    className="btn btn-primary btn-lg disabled"
-                    id="submitButton"
-                    type="submit"
-                >
-                    Submit
-                </button>
-            </div>
-        </form>
+            }
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                <FloatingLabel controlId="floatingInput" label="Email address" className="mb-3">
+                    <Form.Control
+                        type="email"
+                        placeholder="name@example.com"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInput}
+                        required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        Please provide a valid Email.
+                    </Form.Control.Feedback>
+                </FloatingLabel>
+
+                <FloatingLabel controlId="floatingPassword" label="Password">
+                    <Form.Control
+                        type="password"
+                        placeholder="Password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleInput}
+                        required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        Please enter your password.
+                    </Form.Control.Feedback>
+                </FloatingLabel>
+
+                <Button variant="primary" size="lg" className="w-100 mt-3" type="submit" disabled={inProgress}>
+                    Submit form
+                </Button>
+            </Form>
+        </>
     );
 }
 

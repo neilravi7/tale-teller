@@ -12,7 +12,6 @@ import {
 
 import { API_URL } from "../../Helper/urls";
 import { requestCreator } from "../../Helper/utils";
-import { getUser } from "../../Helper/utils";
 
 export function startLogin() {
   return {
@@ -68,8 +67,7 @@ export function signUpFailed(errorMessage){
     type:SIGN_UP_FAILED,
     error:errorMessage
   }
-}
-  
+}  
 
 //! Login Actions Handler
 export function login(email, password) {
@@ -89,21 +87,20 @@ export function login(email, password) {
           }
           throw new Error(`Error: ${response.status}`);
         }
+
         return response.json();
       })
       .then((data) => {
+        console.log("IN DATA BLOCK");
         window.localStorage.setItem("access", data.access);
         window.localStorage.setItem("refresh", data.refresh);
-        const { email, user_id, first_name, last_name } = getUser();
-        const user = { email, user_id, first_name, last_name };
-        dispatch(successLogin(user));
+        window.localStorage.setItem('userInfo', JSON.stringify(data.userDetails));
+        dispatch(successLogin(data.userDetails));
+        dispatch(clearAuthState());
       })
       .catch((error) => {
-        console.error(error.message);
+        console.log("IN Catch BLOCK");
         dispatch(failedLogin(error.message));
-
-        // console.log("Resetting login state in 3 seconds...");
-
         setTimeout(() => {
           console.log("Resetting login state now...");
           dispatch(clearAuthState());
