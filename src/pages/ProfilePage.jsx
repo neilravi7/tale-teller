@@ -14,6 +14,7 @@ const ProfilePage = () => {
     // const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(true); // Add a loading state
     const [posts, setPosts] = useState([]);
+    const [userData, setUserData] = useState(user);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -29,7 +30,18 @@ const ProfilePage = () => {
                     }
 
                     const data = await response.json();
-                    // setUserData(data);
+                    setUserData(
+                        {
+                            user_id: data.id,
+                            email: data.email,
+                            first_name: data.first_name,
+                            last_name: data.last_name,
+                            bio: data.profile.bio,
+                            profile_image: data.profile.profile_image,
+                            following:data.peoples_you_follow,
+                            followers:data.peoples_following_you
+                        }
+                    );
                     setPosts(data.user_posts);
                     toast.success("Profile data fetched successfully");
                 } catch (error) {
@@ -71,36 +83,31 @@ const ProfilePage = () => {
                         <div className="row gy-4">
                             <div className="col-12">
                                 <div className="card widget-card border-light shadow-sm">
-                                    <div className="card-header text-bg-primary">
-                                        Welcome, {user.first_name}
+                                    <div className="card-header text-bg-dark">
+                                        Welcome, {userData.first_name}
                                     </div>
                                     <div className="card-body">
                                         <div className="text-center mb-3">
                                             <img
-                                                src={user.profile_image}
+                                                src={userData.profile_image}
                                                 className="img-fluid rounded-circle"
                                                 alt="profile image"
                                             />
                                         </div>
-                                        <h5 className="text-center mb-1">{user.first_name} {user.last_name}</h5>
+                                        <h5 className="text-center mb-1">{userData.first_name} {userData.last_name}</h5>
                                         <p className="text-center text-secondary mb-4">
                                             Project Manager At Github Inc.
                                         </p>
                                         <ul className="list-group list-group-flush mb-4">
                                             <li className="list-group-item d-flex justify-content-between align-items-center">
                                                 <h6 className="m-0">Followers</h6>
-                                                <span>{user.following.length}</span>
+                                                <span>{userData.followers.length}</span>
                                             </li>
                                             <li className="list-group-item d-flex justify-content-between align-items-center">
                                                 <h6 className="m-0">Following</h6>
-                                                <span>{user.followers.length}</span>
+                                                <span>{userData.following.length}</span>
                                             </li>
                                         </ul>
-                                        <div className="d-grid m-0">
-                                            <button className="btn btn-outline-primary" type="button">
-                                                Follow
-                                            </button>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +117,7 @@ const ProfilePage = () => {
                     <div className="col-12 col-lg-8 col-xl-9">
                         <div className="card widget-card border-light shadow-sm">
                             <div className="card-body p-4">
-                                <ul className="nav nav-tabs" id="profileTab" role="tablist">
+                                <ul className="nav nav-pills nav-fill " id="profileTab" role="tablist">
                                     <li className="nav-item" role="presentation">
                                         <button
                                             className="nav-link active"
@@ -178,7 +185,7 @@ const ProfilePage = () => {
                                     >
                                         <h5 className="mb-3 text-start">About</h5>
                                         <p className="lead mb-3 text-start">
-                                            {user.bio}
+                                            {userData.bio}
                                         </p>
                                         <h5 className="mb-3 text-start">Profile</h5>
                                         <div className="row g-0">

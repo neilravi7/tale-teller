@@ -7,6 +7,9 @@ import {
     CLEAR_AUTH_STATE,
     SIGN_UP_START,
     SIGN_UP_FAILED,
+    ADD_FOLLOWER,
+    REMOVE_FOLLOWER,
+    UPDATE_USER_INFO,
     
 } from "./actionType";
 
@@ -68,6 +71,22 @@ export function signUpFailed(errorMessage){
     error:errorMessage
   }
 }  
+
+export function addFollower(user){
+  return{
+    type:ADD_FOLLOWER,
+    user
+  }
+}  
+
+export function removeFollower(user){
+  return{
+    type:REMOVE_FOLLOWER,
+    user
+  }
+} 
+
+export default UPDATE_USER_INFO
 
 //! Login Actions Handler
 export function login(email, password) {

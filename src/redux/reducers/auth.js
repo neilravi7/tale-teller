@@ -8,6 +8,8 @@ import {
     UPDATE_USER_DETAILS,
     SIGN_UP_START,
     SIGN_UP_FAILED,
+    ADD_FOLLOWER,
+    REMOVE_FOLLOWER,
 } from "../actions/actionType";
 import { isUserAuthenticated, getUserDetails } from "../../Helper/utils";
 
@@ -72,9 +74,19 @@ export default function auth(state = initialState, action){
                 inProgress:false,
                 success:false
             }
-        case UPDATE_USER_DETAILS:
+        case ADD_FOLLOWER:
             return{ 
                 ...state, 
+                user:action.user
+            }
+        case REMOVE_FOLLOWER:
+            return{ 
+                ...state, 
+                user:action.user
+            }
+        case UPDATE_USER_DETAILS:
+            return{
+                ...state,
                 user:action.user
             }
         default:

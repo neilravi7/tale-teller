@@ -3,7 +3,7 @@ import { API_URL } from "../../Helper/urls";
 import { requestCreator } from "../../Helper/utils";
 
 
-function updateUserProfile(user){
+export function updateUserProfile(user){
     return{
         type:UPDATE_USER_DETAILS,
         user

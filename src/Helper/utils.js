@@ -74,7 +74,7 @@ export function requestCreator(
             redirect: "follow"
         };
         
-        if(requestMethod !== "GET"){
+        if(requestMethod !== "GET" && requestMethod !== "DELETE"){
             requestOptions["body"] = JSON.stringify(requestBody);
         }
         

@@ -4,12 +4,12 @@ import { AuthLayout, AppLayout } from "../components/Layout";
 import { 
     HomePage, 
     PostDetailPage, 
-    PostHomePage, 
-    Profile,
+    PostHomePage,
     ProfilePage, 
     SignInPage, 
     SignUpPage,
-    NotFound, 
+    NotFound,
+    AuthorProfile, 
 } from "../pages";
 import PostPage from '../pages/PostPage';
 
@@ -23,6 +23,7 @@ function AppRoutes(props) {
             <Route path={'/'} element={<HomePage />} />              
             <Route path="/home" element={<Navigate to="/"/> } />
             <Route path={'/profile'} element={<ProfilePage />} />
+            <Route path={'/author/profile/:authorId'} element={<AuthorProfile />} />
             <Route path={'/posts'} element={<PostHomePage />} />
             <Route path={'/post/:postSlug'} element={<PostDetailPage />} />
             <Route path='*' element={<NotFound />}/>

@@ -20,3 +20,6 @@ export const UPDATE_USER_INFO = "UPDATE_USER_INFO";
 // user creation Options:
 export const SIGN_UP_START = "SIGN_UP_START";
 export const SIGN_UP_FAILED = "SIGN_UP_FAILED";
+
+export const ADD_FOLLOWER = "ADD_FOLLOWER";
+export const REMOVE_FOLLOWER = "REMOVE_FOLLOWER";

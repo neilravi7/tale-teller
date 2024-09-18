@@ -21,4 +21,8 @@ export const API_URL = {
     // like API's
     addLike:(postId)=>`${API_ROOT}/posts/${postId}/likes`,
     removeLike:(commentId)=>`${API_ROOT}/posts/likes/${commentId}/`,
+
+    // following
+    makeFollow:()=>`${API_ROOT}/users/following`,
+    makeUnfollow:(userId)=>`${API_ROOT}/users/unfollowing/${userId}`, 
 }
