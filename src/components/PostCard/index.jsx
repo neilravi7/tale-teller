@@ -17,7 +17,6 @@ function PostCard(props) {
     }
 
     const post = props.post;
-    console.log("post: ", post);
     return (
         <div className="col-lg-4 mb-5">
             <div className={loading ? 'card h-100  border-0 loading-skeleton': 'card h-100  border-0'}>

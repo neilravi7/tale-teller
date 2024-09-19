@@ -20,7 +20,7 @@ export const API_URL = {
     
     // like API's
     addLike:(postId)=>`${API_ROOT}/posts/${postId}/likes`,
-    removeLike:(commentId)=>`${API_ROOT}/posts/likes/${commentId}/`,
+    removeLike:(likeId)=>`${API_ROOT}/posts/likes/${likeId}/`,
 
     // following
     makeFollow:()=>`${API_ROOT}/users/following`,

@@ -1,8 +1,69 @@
-import Navigation from "../components/Navigation";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { FaRegThumbsUp, FaThumbsUp, FaRegComments } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { API_URL } from "../Helper/urls";
+import { requestCreator } from "../Helper/utils";
+import { toast } from "react-toastify";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import { FloatingLabel } from "react-bootstrap";
+import { formatDate } from "../Helper/utils";
 
 const PostDetailPage = () => {
-    return (
+    const { isAuthenticated, user } = useSelector((state) => state.auth);
+    const slug = useParams().postSlug;
+    const [userLikedPost, setUserLikedPost] = useState(false);
+    const [postDetail, setPostDetail] = useState({});
 
+    const handleLike = (postId, action) => {
+        if (!isAuthenticated) {
+            toast.info("Please Login to like post");
+            return;
+        }
+
+        const URL = API_URL.addLike(postId);
+        const requestOption = action === "ADD" ? requestCreator("POST", {}, true) : requestCreator("DELETE", {}, true);
+
+        fetch(URL, requestOption)
+            .then((response) => {
+                if (response.status === 201) {
+                    toast.info("You like this post.");
+                    setUserLikedPost(true);
+                } else if (response.status === 204) {
+                    toast.warn("Removed like from post.");
+                    setUserLikedPost(false);
+                } else {
+                    toast.info("Error while adding like to post.");
+                }
+            })
+            .catch((error) => console.error(error));
+    };
+
+    useEffect(() => {
+        const fetchPostDetails = async () => {
+            const URL = API_URL.getPost(slug);
+            const requestOption = requestCreator("GET", {}, false);
+
+            try {
+                const response = await fetch(URL, requestOption);
+                if (!response.ok) {
+                    throw new Error(`${response.status}: Error while fetching data`);
+                }
+                const data = await response.json();
+                setPostDetail(data);
+                const isLiked = data.likedBy.includes(user.user_id)
+                setUserLikedPost(isLiked);
+            } catch (error) {
+                console.error(error.message);
+            }
+        };
+
+        fetchPostDetails();
+    }, [slug]);
+
+    return (
         <section className="py-5">
             <div className="container px-5 my-5">
                 <div className="row gx-5">
@@ -10,161 +71,96 @@ const PostDetailPage = () => {
                         <div className="d-flex align-items-center mt-lg-5 mb-4">
                             <img
                                 className="img-fluid rounded-circle"
-                                src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
+                                src="https://placebeard.it/50x50"
                                 alt="..."
                             />
                             <div className="ms-3">
-                                <div className="fw-bold">Valerie Luna</div>
+                                <div className="fw-bold">
+                                    {postDetail.author?.first_name} {postDetail.author?.last_name}
+                                </div>
                                 <div className="text-muted">News, Business</div>
+                            </div>
+                        </div>
+                        <div className="d-flex align-items-center mt-lg-5 mb-4">
+                            {userLikedPost ? (
+                                <FaThumbsUp size={30} onClick={() => handleLike(postDetail.id, "REMOVE")} />
+                            ) : (
+                                <FaRegThumbsUp size={30} onClick={() => handleLike(postDetail.id, "ADD")} />
+                            )}
+                            <div className="ms-3">
+                                <div className="text-muted">{postDetail.likes?.length || 0}</div>
+                            </div>
+                        </div>
+                        <div className="d-flex align-items-center mt-lg-5 mb-4">
+                            <FaRegComments size={30} />
+                            <div className="ms-3">
+                                <div className="text-muted">{postDetail.comments?.length || 0}</div>
                             </div>
                         </div>
                     </div>
                     <div className="col-lg-9">
-                        {/* Post content*/}
                         <article>
-                            {/* Post header*/}
-                            <header className="mb-4">
-                                {/* Post title*/}
-                                <h1 className="fw-bolder mb-1">Welcome to Blog Post!</h1>
-                                {/* Post meta content*/}
-                                <div className="text-muted fst-italic mb-2">January 1, 2023</div>
-                                {/* Post categories*/}
-                                <a
-                                    className="badge bg-secondary text-decoration-none link-light"
-                                    href="#!"
-                                >
-                                    Web Design
-                                </a>
-                                <a
-                                    className="badge bg-secondary text-decoration-none link-light"
-                                    href="#!"
-                                >
-                                    Freebies
+                            <header className="mb-4 text-start">
+                                <h1 className="fw-bolder mb-1">{postDetail.title}</h1>
+                                <div className="text-muted fst-italic mb-2">{formatDate(postDetail.created_at)}</div>
+                                <a className="badge bg-secondary text-decoration-none link-light" href="#!">
+                                    {postDetail.category?.name}
                                 </a>
                             </header>
-                            {/* Preview image figure*/}
                             <figure className="mb-4">
-                                <img
-                                    className="img-fluid rounded"
-                                    src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"
-                                    alt="..."
-                                />
+                                <img className="img-fluid rounded" src="https://picsum.photos/900/420" alt="..." />
                             </figure>
-                            {/* Post content*/}
                             <section className="mb-5">
-                                <p className="fs-5 mb-4">
-                                    Science is an enterprise that should be cherished as an activity
-                                    of the free human mind. Because it transforms who we are, how we
-                                    live, and it gives us an understanding of our place in the
-                                    universe.
-                                </p>
-                                <p className="fs-5 mb-4">
-                                    The universe is large and old, and the ingredients for life as we
-                                    know it are everywhere, so there's no reason to think that Earth
-                                    would be unique in that regard. Whether of not the life became
-                                    intelligent is a different question, and we'll see if we find
-                                    that.
-                                </p>
-                                <p className="fs-5 mb-4">
-                                    If you get asteroids about a kilometer in size, those are large
-                                    enough and carry enough energy into our system to disrupt
-                                    transportation, communication, the food chains, and that can be a
-                                    really bad day on Earth.
-                                </p>
-                                <h2 className="fw-bolder mb-4 mt-5">
-                                    I have odd cosmic thoughts every day
-                                </h2>
-                                <p className="fs-5 mb-4">
-                                    For me, the most fascinating interface is Twitter. I have odd
-                                    cosmic thoughts every day and I realized I could hold them to
-                                    myself or share them with people who might be interested.
-                                </p>
-                                <p className="fs-5 mb-4">
-                                    Venus has a runaway greenhouse effect. I kind of want to know what
-                                    happened there because we're twirling knobs here on Earth without
-                                    knowing the consequences of it. Mars once had running water. It's
-                                    bone dry today. Something bad happened there as well.
-                                </p>
+                                <p className="fs-5 mb-4 text-start">{postDetail.content}</p>
                             </section>
                         </article>
-                        {/* Comments section*/}
                         <section>
-                            <div className="card bg-light">
+                            <div className="card bg-body-tertiary">
                                 <div className="card-body">
-                                    {/* Comment form*/}
-                                    <form className="mb-4">
-                                        <textarea
-                                            className="form-control"
-                                            rows={3}
-                                            placeholder="Join the discussion and leave a comment!"
-                                            defaultValue={""}
-                                        />
-                                    </form>
-                                    {/* Comment with nested comments*/}
-                                    <div className="d-flex mb-4">
-                                        {/* Parent comment*/}
-                                        <div className="flex-shrink-0">
-                                            <img
-                                                className="rounded-circle"
-                                                src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                                                alt="..."
-                                            />
-                                        </div>
-                                        <div className="ms-3">
-                                            <div className="fw-bold">Commenter Name</div>
-                                            If you're going to lead a space frontier, it has to be
-                                            government; it'll never be private enterprise. Because the
-                                            space frontier is dangerous, and it's expensive, and it has
-                                            unquantified risks.
-                                            {/* Child comment 1*/}
-                                            <div className="d-flex mt-4">
-                                                <div className="flex-shrink-0">
-                                                    <img
-                                                        className="rounded-circle"
-                                                        src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                                                        alt="..."
+                                    {isAuthenticated && (
+                                        <form className="mb-4">
+                                            <InputGroup>
+                                                <FloatingLabel
+                                                    controlId="floatingTextarea"
+                                                    label="Comments"
+                                                    className="flex-grow-1 me-2"
+                                                >
+                                                    <Form.Control
+                                                        as="textarea"
+                                                        placeholder="Leave a comment here"
+                                                        style={{ height: '50px' }} 
                                                     />
-                                                </div>
-                                                <div className="ms-3">
-                                                    <div className="fw-bold">Commenter Name</div>
-                                                    And under those conditions, you cannot establish a
-                                                    capital-market evaluation of that enterprise. You can't
-                                                    get investors.
+                                                </FloatingLabel>
+                                                <Button variant="outline-dark" id="button-addon1">
+                                                    Submit
+                                                </Button>
+                                            </InputGroup>
+                                        </form>
+                                    )}
+                                    <div className="fs-3 fw-bold text-start my-3">Post comments</div>
+                                    {postDetail.comments?.length === 0 ? (
+                                        <h4>comments will appear here.</h4>
+                                    ) : (
+                                        postDetail.comments?.map((comment) => (
+                                            <div key={comment.id}>
+                                                <div className="d-flex">
+                                                    <div className="flex-shrink-0">
+                                                        <img
+                                                            className="rounded-circle"
+                                                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
+                                                            alt="..."
+                                                        />
+                                                    </div>
+                                                    <div className="ms-3 text-start">
+                                                        <div className="fw-bold">
+                                                            {comment.user.first_name} {comment.user.last_name}
+                                                        </div>
+                                                        {comment.content}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            {/* Child comment 2*/}
-                                            <div className="d-flex mt-4">
-                                                <div className="flex-shrink-0">
-                                                    <img
-                                                        className="rounded-circle"
-                                                        src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                                                        alt="..."
-                                                    />
-                                                </div>
-                                                <div className="ms-3">
-                                                    <div className="fw-bold">Commenter Name</div>
-                                                    When you put money directly to a problem, it makes a good
-                                                    headline.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* Single comment*/}
-                                    <div className="d-flex">
-                                        <div className="flex-shrink-0">
-                                            <img
-                                                className="rounded-circle"
-                                                src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                                                alt="..."
-                                            />
-                                        </div>
-                                        <div className="ms-3">
-                                            <div className="fw-bold">Commenter Name</div>
-                                            When I look at the universe and all the ways the universe
-                                            wants to kill us, I find it hard to reconcile that with
-                                            statements of beneficence.
-                                        </div>
-                                    </div>
+                                        ))
+                                    )}
                                 </div>
                             </div>
                         </section>
@@ -172,7 +168,7 @@ const PostDetailPage = () => {
                 </div>
             </div>
         </section>
-    )
-}
+    );
+};
 
 export default PostDetailPage;
