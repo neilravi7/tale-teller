@@ -16,11 +16,11 @@ export const API_URL = {
 
     //comments
     addComments:(postId)=>`${API_ROOT}/posts/${postId}/comments`,
-    removeComments:(commentId)=>`${API_ROOT}/posts/comments/${commentId}/`,
+    removeComments:(commentId)=>`${API_ROOT}/posts/comments/${commentId}`,
     
     // like API's
     addLike:(postId)=>`${API_ROOT}/posts/${postId}/likes`,
-    removeLike:(likeId)=>`${API_ROOT}/posts/likes/${likeId}/`,
+    removeLike:(likeId)=>`${API_ROOT}/posts/likes/${likeId}`,
 
     // following
     makeFollow:()=>`${API_ROOT}/users/following`,

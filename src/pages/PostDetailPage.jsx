@@ -5,11 +5,10 @@ import { useEffect, useState } from "react";
 import { API_URL } from "../Helper/urls";
 import { requestCreator } from "../Helper/utils";
 import { toast } from "react-toastify";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import { FloatingLabel } from "react-bootstrap";
 import { formatDate } from "../Helper/utils";
+import CommentForm from "../components/Forms/CommentForm";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
+
 
 const PostDetailPage = () => {
     const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -17,13 +16,36 @@ const PostDetailPage = () => {
     const [userLikedPost, setUserLikedPost] = useState(false);
     const [postDetail, setPostDetail] = useState({});
 
+    function getLikeId(likes){
+        const likeId = likes.filter((like) => like.user.id === user.user_id);
+        return likeId[0].id;
+    }
+
+    function removeComment(commentId){
+        const URL = API_URL.removeComments(commentId);
+        const requestOption = requestCreator("DELETE", {}, true);
+        fetch(URL, requestOption).then((response) => {
+            if(response.status === 204){
+                toast.info("You remove comment from the post.");
+                const updatedComments = postDetail.comments.filter((comment) => comment.id !== commentId);
+                setPostDetail({...postDetail, comments:updatedComments});
+            }else{
+                toast.error("Error while remove comment.")
+            }
+        })
+
+    }
+
     const handleLike = (postId, action) => {
         if (!isAuthenticated) {
             toast.info("Please Login to like post");
             return;
         }
-
-        const URL = API_URL.addLike(postId);
+        let likeId = null
+        if(userLikedPost){
+            likeId = getLikeId(postDetail.likes);
+        }
+        const URL = action === "ADD" ? API_URL.addLike(postId) : API_URL.removeLike(likeId);
         const requestOption = action === "ADD" ? requestCreator("POST", {}, true) : requestCreator("DELETE", {}, true);
 
         fetch(URL, requestOption)
@@ -31,9 +53,27 @@ const PostDetailPage = () => {
                 if (response.status === 201) {
                     toast.info("You like this post.");
                     setUserLikedPost(true);
+                    const data = response.json();
+
+                    const newLike = {
+                        id:data.id,
+                        post:data.post,
+                        user:{
+                            id:data.user
+                        }
+                    }
+                    const postLikes = postDetail.likes;
+                    postLikes.push(newLike)
+                    setPostDetail({
+                        ...postDetail, likes:postLikes
+                    })
                 } else if (response.status === 204) {
-                    toast.warn("Removed like from post.");
+                    toast.info("Removed like from post.");
                     setUserLikedPost(false);
+                    const newLikes = postDetail.likes.filter((like)=> like.id !== likeId);
+                    setPostDetail({
+                        ...postDetail, likes:newLikes
+                    })
                 } else {
                     toast.info("Error while adding like to post.");
                 }
@@ -118,24 +158,7 @@ const PostDetailPage = () => {
                             <div className="card bg-body-tertiary">
                                 <div className="card-body">
                                     {isAuthenticated && (
-                                        <form className="mb-4">
-                                            <InputGroup>
-                                                <FloatingLabel
-                                                    controlId="floatingTextarea"
-                                                    label="Comments"
-                                                    className="flex-grow-1 me-2"
-                                                >
-                                                    <Form.Control
-                                                        as="textarea"
-                                                        placeholder="Leave a comment here"
-                                                        style={{ height: '50px' }} 
-                                                    />
-                                                </FloatingLabel>
-                                                <Button variant="outline-dark" id="button-addon1">
-                                                    Submit
-                                                </Button>
-                                            </InputGroup>
-                                        </form>
+                                        <CommentForm postDetail={postDetail} setPostDetail={setPostDetail}/>
                                     )}
                                     <div className="fs-3 fw-bold text-start my-3">Post comments</div>
                                     {postDetail.comments?.length === 0 ? (
@@ -143,7 +166,7 @@ const PostDetailPage = () => {
                                     ) : (
                                         postDetail.comments?.map((comment) => (
                                             <div key={comment.id}>
-                                                <div className="d-flex">
+                                                <div className="d-flex my-3">
                                                     <div className="flex-shrink-0">
                                                         <img
                                                             className="rounded-circle"
@@ -155,7 +178,9 @@ const PostDetailPage = () => {
                                                         <div className="fw-bold">
                                                             {comment.user.first_name} {comment.user.last_name}
                                                         </div>
-                                                        {comment.content}
+                                                        {comment.content} {
+                                                            comment.user.id === user.user_id ? 
+                                                            ( <IoIosRemoveCircleOutline className="ms-2 text-danger" size={20} onClick={()=>removeComment(comment.id)}/>) : (<></>)}
                                                     </div>
                                                 </div>
                                             </div>
