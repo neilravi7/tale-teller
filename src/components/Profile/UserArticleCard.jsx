@@ -1,4 +1,6 @@
 import React from 'react';
+import { FaRegThumbsUp, FaRegComments } from "react-icons/fa";
+
 
 function UserArticleCard(props) {
     const post = props.post;
@@ -31,10 +33,23 @@ function UserArticleCard(props) {
                                 <p>
                                 {post.content.length > maxLength ? post.content.slice(0, maxLength) + "..." : post.content}
                                 </p>
-                                <a className="stretched-link text-decoration-none" href="#!">
-                                    Read more
-                                    <i className="bi bi-arrow-right" />
-                                </a>
+                                <div className="d-flex justify-content-around mb-3">
+                                    <div className="p-2">
+                                        <FaRegThumbsUp size={20} className='text-primary'/> {post.likes.length}
+                                    </div>
+                                    <div className="p-2">
+                                        <FaRegComments size={20} className='text-primary'/> {post.comments.length}
+                                    </div>
+                                    <div className="p-2 fw-bold">
+                                        UPDATE
+                                    </div>
+                                    <div className="p-2 text-info fw-bold">
+                                        VIEW
+                                    </div>
+                                    <div className="p-2 text-danger fw-bold">
+                                        ARCHIVE
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

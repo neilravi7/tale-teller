@@ -72,7 +72,7 @@ const ProfilePage = () => {
             <div className="container">
                 <div className="row justify-content-md-center">
                     <div className="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                        <h2 className="mb-4 display-5 text-center">Profile</h2>
+                        <h2 className="mb-4 display-5 text-center fw-semibold">Profile</h2>
                         <hr className="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle" />
                     </div>
                 </div>
@@ -95,7 +95,7 @@ const ProfilePage = () => {
                                             />
                                         </div>
                                         <h5 className="text-center mb-1">{userData.first_name} {userData.last_name}</h5>
-                                        <p className="text-center text-secondary mb-4">
+                                        <p className="text-center text-dark fw-semibold mb-4">
                                             Project Manager At Github Inc.
                                         </p>
                                         <ul className="list-group list-group-flush mb-4">
@@ -119,7 +119,7 @@ const ProfilePage = () => {
                             <div className="card-body p-4">
                                 <ul className="nav nav-pills nav-fill " id="profileTab" role="tablist">
                                     <li className="nav-item" role="presentation">
-                                        <button
+                                        <a
                                             className="nav-link active"
                                             id="overview-tab"
                                             data-bs-toggle="tab"
@@ -129,8 +129,8 @@ const ProfilePage = () => {
                                             aria-controls="overview-tab-pane"
                                             aria-selected="true"
                                         >
-                                            Overview
-                                        </button>
+                                             OVERVIEW
+                                        </a>
                                     </li>
                                     <li className="nav-item" role="presentation">
                                         <button
@@ -158,20 +158,6 @@ const ProfilePage = () => {
                                             aria-selected="false"
                                         >
                                             MY POSTS
-                                        </button>
-                                    </li>
-                                    <li className="nav-item" role="presentation">
-                                        <button
-                                            className="nav-link"
-                                            id="password-tab"
-                                            data-bs-toggle="tab"
-                                            data-bs-target="#password-tab-pane"
-                                            type="button"
-                                            role="tab"
-                                            aria-controls="password-tab-pane"
-                                            aria-selected="false"
-                                        >
-                                            PASSWORD
                                         </button>
                                     </li>
                                 </ul>

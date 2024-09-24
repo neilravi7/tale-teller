@@ -2,7 +2,7 @@ import React from 'react';
 
 function Aside(props) {
     return (
-        <aside className="bg-primary bg-gradient rounded-3 p-4 p-sm-5 mt-5">
+        <aside className="bg-dark bg-gradient rounded-3 p-4 p-sm-5 mt-5">
             <div className="d-flex align-items-center justify-content-between flex-column flex-xl-row text-center text-xl-start">
                 <div className="mb-4 mb-xl-0">
                     <div className="fs-3 fw-bold text-white">

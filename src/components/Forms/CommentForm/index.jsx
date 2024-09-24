@@ -79,7 +79,7 @@ function CommentForm(props){
                             as="textarea"
                             name="content"
                             placeholder="Leave a comment here"
-                            style={{ height: '50px' }}
+                            style={{ height: '70px' }}
                             value={formData.content}
                             onChange={handleInput}
                         />

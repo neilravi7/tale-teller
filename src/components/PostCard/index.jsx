@@ -19,7 +19,7 @@ function PostCard(props) {
     const post = props.post;
     return (
         <div className="col-lg-4 mb-5">
-            <div className={loading ? 'card h-100  border-0 loading-skeleton': 'card h-100  border-0'}>
+            <div className={loading ? 'card h-100  border-0 loading-skeleton shadow rounded': 'card h-100  border-0 shadow rounded'}>
                
                 <img
                     height={"200px"}

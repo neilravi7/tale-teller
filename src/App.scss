@@ -1,0 +1,15 @@
+$primary: #FA8072;
+$secondary: #566573;
+$success: #2ecc71;
+$warning:#f7dc6f;
+$info:#3498db;
+$danger:#d35400;
+$light: #F7F8FC;
+$dark: #17202a;
+$light:#fbfcfc;
+
+
+$nav-pills-link-active-bg: $dark;
+$nav-pills-link-active-color: #fff;
+
+@import "node_modules/bootstrap/scss/bootstrap.scss";
