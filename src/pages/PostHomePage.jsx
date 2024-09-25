@@ -14,10 +14,15 @@ const PostHomePage = () => {
     },[dispatch]);
 
     return (
-        <section className="py-5 bg-light">
+        <section className="py-5 bg-info bg-opacity-25">
             <div className="container px-5">
-                <h2 className="fw-bolder fs-5 mb-4">Featured Stories</h2>
-                <div className="row gx-5">
+                <div className="row justify-content-md-center mt-2">
+                    <div className="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                        <h2 className="mb-4 display-5 text-center fw-semibold">Recent Articles</h2>
+                        <hr className="w-75 mx-auto mb-5 mb-xl-9 border-dark" />
+                    </div>
+                </div>
+                <div className="row gx-5 mt-2">
                     { posts.map((post, index) => (<PostCard key={index} post={post}/>))}
                 </div>
                 <div className="text-end mb-5 mb-xl-0">

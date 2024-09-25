@@ -1,6 +1,8 @@
+import reader from '../../../assets/images/reader.webp'
+
 const Header = () => {
     return (
-        <header className="bg-primary bg-opacity-75 py-5">
+        <header className="bg-primary bg-opacity-75 py-3">
             <div className="container px-5">
                 <div className="row gx-5 align-items-center justify-content-center">
                     <div className="col-lg-8 col-xl-7 col-xxl-6">
@@ -26,8 +28,8 @@ const Header = () => {
                     </div>
                     <div className="col-xl-5 col-xxl-6 d-none d-xl-block text-center">
                         <img
-                            className="img-fluid rounded-3 my-5"
-                            src="https://dummyimage.com/600x400/343a40/6c757d"
+                            className="img-fluid rounded-5 my-5 shadow"
+                            src={reader}
                             alt="..."
                         />
                     </div>

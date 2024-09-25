@@ -19,10 +19,10 @@ const Navigation = () => {
     }
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark text-light">
-                <div className="container px-5 py-3">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light text-dark shadow ">
+                <div className="container  py-3 bg-opacity-75">
                     <Link className="navbar-brand" to={"/home"}>
-                        <h1 className="display-5 fw-bolder text-white mb-2">
+                        <h1 className="display-5 fw-bolder text-primary mb-2">
                             Tale Taler
                         </h1>
                     </Link>
@@ -40,7 +40,7 @@ const Navigation = () => {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link className="nav-link" to={"/home"}>
+                                <Link  className="nav-link" to={"/home"}>
                                     <p className="fw-semibold fs-5">Home</p>
                                 </Link>
                             </li>
@@ -75,7 +75,7 @@ const Navigation = () => {
                                 <>
                                     <li className="nav-item">
                                         <Link to="/post/create" className="nav-link">
-                                            <button className="btn btn-light btn-lg rounded-pill fw-semibold"><TfiPencilAlt></TfiPencilAlt> Write</button>
+                                            <button className="btn btn-primary btn-lg rounded-pill fw-semibold"><TfiPencilAlt></TfiPencilAlt> WRITE</button>
                                         </Link>
                                     </li>
                                     <li className="nav-item">
@@ -84,10 +84,7 @@ const Navigation = () => {
                                         </Link>
                                     </li>
                                 </>
-
-                            }
-
-                            
+                            }                            
                         </ul>
                     </div>
                 </div>
