@@ -41,7 +41,7 @@ function UserArticleCard(props) {
                         </div>
                         <div className="col-lg-8 col-xl-7 py-lg-7">
                             <div className="p-4 p-md-5">
-                                <div className="badge bg-primary bg-gradient rounded-pill mb-2">
+                                <div className="badge bg-success-subtle rounded mb-2 fs-5 fw-semibold text-dark">
                                     {post.category.name}
                                 </div>
                                 <div className="h2 fw-bolder">{post.title}</div>
@@ -55,7 +55,7 @@ function UserArticleCard(props) {
                                     <div className="p-2">
                                         <FaRegComments size={20} className='text-dark'/> {post.comments.length}
                                     </div>
-                                    {/* {user.user_id === post.author.id ? (<>
+                                    {user.user_id === post.author.id ? (<>
                                         <div className="p-2 fw-bold">
                                         UPDATE
                                     </div>
@@ -64,7 +64,7 @@ function UserArticleCard(props) {
                                     </div>
                                     <div className="p-2 text-danger fw-bold">
                                         ARCHIVE
-                                    </div></>) : (<Link to={`/author/profile/${post}`}>Read More..</Link>)} */}
+                                    </div></>) : (<Link to={`/post/${post.slug}`}>Read More..</Link>)}
                                     
                                 </div>
                             </div>

@@ -32,11 +32,11 @@ function PostCard(props) {
                         alt="post image"
                     />
                     <div className="card-body p-4 text-start">
-                        <div className="badge bg-primary bg-gradient rounded-pill mb-2">
+                        <div className="badge bg-success-subtle rounded mb-2 fs-6 fw-semibold text-dark">
                             {post.category.name}
                         </div>
                         <Link
-                            className="text-decoration-none link-dark stretched-link"
+                            className="text-decoration-none link-dark stretched-link fw-semibold fs-5"
                             to={`/post/${post.slug}`}
                         >
                             <h5 className="card-title mb-3">{post.title.length > 30 ? post.title.slice(0, 30) + "..." : post.title}</h5>

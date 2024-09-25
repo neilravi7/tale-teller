@@ -150,9 +150,9 @@ const PostDetailPage = () => {
                             <header className="mb-4 text-start">
                                 <h1 className="fw-bolder mb-1">{postDetail.title}</h1>
                                 <div className="text-muted fst-italic mb-2">{formatDate(postDetail.created_at)}</div>
-                                <a className="badge bg-primary text-decoration-none" href="#!">
+                                <Link className="badge bg-success-subtle rounded mb-2 fs-5 fw-semibold text-dark">
                                     {postDetail.category?.name}
-                                </a>
+                                </Link>
                             </header>
                             <figure className="mb-4">
                                 <img className="img-fluid rounded" src="https://picsum.photos/900/420" alt="..." />
@@ -177,7 +177,7 @@ const PostDetailPage = () => {
                                                     <div className="flex-shrink-0">
                                                         <img
                                                             className="rounded-circle"
-                                                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
+                                                            src="https://placebeard.it/50x50"
                                                             alt="..."
                                                         />
                                                     </div>

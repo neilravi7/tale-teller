@@ -1,4 +1,4 @@
-const API_ROOT = 'https://devblog-rzby.onrender.com'
+const API_ROOT = 'https://devblog-rzby.onrender.com/api/v1'
 
 export const API_URL = {
 
