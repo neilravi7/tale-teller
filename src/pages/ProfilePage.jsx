@@ -68,7 +68,7 @@ const ProfilePage = () => {
     }
 
     return (
-        <section className="bg-light py-3 py-md-5 py-xl-8">
+        <section className="bg-info-subtle py-3 py-md-5 py-xl-8">
             <div className="container">
                 <div className="row justify-content-md-center">
                     <div className="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
@@ -83,7 +83,7 @@ const ProfilePage = () => {
                         <div className="row gy-4">
                             <div className="col-12">
                                 <div className="card widget-card border-light shadow-sm">
-                                    <div className="card-header text-bg-dark">
+                                    <div className="card-header bg-primary text-light">
                                         Welcome, {userData.first_name}
                                     </div>
                                     <div className="card-body">

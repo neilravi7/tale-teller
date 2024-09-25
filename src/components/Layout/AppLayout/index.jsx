@@ -5,9 +5,7 @@ import Footer from "../../Footer";
 const AppLayout = ({ children }) => {
     return (
         <main>
-            <div className="container-fluid">
-                <Navigation/>
-            </div>
+            <Navigation/>
             {/* Pages */}
             <Outlet />
             <Footer />

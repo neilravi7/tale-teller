@@ -9,7 +9,7 @@ export const API_URL = {
     getUserProfile:(userId) => `${API_ROOT}/users/${userId}/profile`,
     
     //posts API's
-    fetchAllPost:() => `${API_ROOT}/posts`,
+    fetchAllPost:(query) => `${API_ROOT}/posts/search/?q=${query}`,
     createPost:() => `${API_ROOT}/post/create`,
     updatePost:(postId) => `${API_ROOT}/post/${postId}`,
     getPost:(postId) => `${API_ROOT}/post/${postId}/view`,

@@ -1,21 +1,33 @@
 import React from 'react';
 import { FaRegThumbsUp, FaRegComments } from "react-icons/fa";
-
+import { useState } from 'react';
 
 function UserArticleCard(props) {
     const post = props.post;
     const maxLength = 100;
+
+    const [loading, setLoading] = useState(true);
+
+    const handleOnLoad = (e) => {
+        setLoading(false);
+    }
+    
+    const handleOnError = (e) => {
+        setLoading(false);
+    }
     return (
         <>
-            <div className="card border-0 rounded-3 overflow-hidden text-start mb-2">
-                <div className="card-body p-0">
+            <div className="card border-0 rounded-3 overflow-hidden text-start mb-2 ">
+                <div className={loading? 'card-body p-0 loading-skeleton' : 'card-body p-0'}>
                     <div className="row gx-0">
                         <div className="col-lg-4 col-xl-5">
-                            <div
+                            <img
+                                src={post.postImage}
+                                onLoad={()=>handleOnLoad()}
+                                onError={()=>handleOnError()}
+                                alt="post image"
                                 className=""
                                 style={{
-                                    backgroundImage:
-                                        `url(${post.postImage})`,
                                     height: "100%",
                                     width: "100%",
                                     backgroundPosition: "center",
@@ -35,10 +47,10 @@ function UserArticleCard(props) {
                                 </p>
                                 <div className="d-flex justify-content-around mb-3">
                                     <div className="p-2">
-                                        <FaRegThumbsUp size={20} className='text-primary'/> {post.likes.length}
+                                        <FaRegThumbsUp size={20} className='text-dark'/> {post.likes.length}
                                     </div>
                                     <div className="p-2">
-                                        <FaRegComments size={20} className='text-primary'/> {post.comments.length}
+                                        <FaRegComments size={20} className='text-dark'/> {post.comments.length}
                                     </div>
                                     <div className="p-2 fw-bold">
                                         UPDATE

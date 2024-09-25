@@ -19,7 +19,7 @@ const Navigation = () => {
     }
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light text-dark shadow ">
+            <nav className="navbar navbar-expand navbar-light bg-light text-dark shadow bg-gradient">
                 <div className="container  py-3 bg-opacity-75">
                     <Link className="navbar-brand" to={"/home"}>
                         <h1 className="display-5 fw-bolder text-primary mb-2">

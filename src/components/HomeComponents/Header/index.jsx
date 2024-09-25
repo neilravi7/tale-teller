@@ -1,4 +1,5 @@
 import reader from '../../../assets/images/reader.webp'
+import ScrollAnimation from 'react-animate-on-scroll';
 
 const Header = () => {
     return (
@@ -27,11 +28,16 @@ const Header = () => {
                         </div>
                     </div>
                     <div className="col-xl-5 col-xxl-6 d-none d-xl-block text-center">
-                        <img
-                            className="img-fluid rounded-5 my-5 shadow"
-                            src={reader}
-                            alt="..."
-                        />
+                        <ScrollAnimation animateIn='fadeIn'
+                            initiallyVisible={true}
+                            animateOnce={true}>
+                            <img
+                                className="img-fluid rounded-5 my-5 shadow"
+                                src={reader}
+                                alt="..."
+                            />
+                        </ScrollAnimation>
+
                     </div>
                 </div>
             </div>
