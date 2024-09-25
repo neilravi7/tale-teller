@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FaRegThumbsUp, FaThumbsUp, FaRegComments } from "react-icons/fa";
 import { useEffect, useState } from "react";
@@ -15,6 +15,7 @@ const PostDetailPage = () => {
     const slug = useParams().postSlug;
     const [userLikedPost, setUserLikedPost] = useState(false);
     const [postDetail, setPostDetail] = useState({});
+    const [author, setAuthor] = useState('');
 
     function getLikeId(likes){
         const likeId = likes.filter((like) => like.user.id === user.user_id);
@@ -93,6 +94,7 @@ const PostDetailPage = () => {
                 }
                 const data = await response.json();
                 setPostDetail(data);
+                setAuthor(data.author.id);
                 const isLiked = data.likedBy.includes(user.user_id)
                 setUserLikedPost(isLiked);
             } catch (error) {
@@ -108,18 +110,23 @@ const PostDetailPage = () => {
             <div className="container px-5 my-5">
                 <div className="row gx-5">
                     <div className="col-lg-3">
+                        
                         <div className="d-flex align-items-center mt-lg-5 mb-4">
-                            <img
-                                className="img-fluid rounded-circle"
-                                src="https://placebeard.it/50x50"
-                                alt="..."
-                            />
-                            <div className="ms-3">
-                                <div className="fw-bold">
-                                    {postDetail.author?.first_name} {postDetail.author?.last_name}
-                                </div>
-                                <div className="text-muted">News, Business</div>
-                            </div>
+                            
+                                <img
+                                    className="img-fluid rounded-circle"
+                                    src="https://placebeard.it/50x50"
+                                    alt="..."
+                                />
+                                <Link to={`/author/profile/${author}` } className="text-decoration-none">
+                                    <div className="ms-3">
+                                        <div className="fw-bold">
+                                            {postDetail.author?.first_name} {postDetail.author?.last_name}
+                                        </div>
+                                        <div className="text-muted">News, Developer</div>
+                                    </div>
+                                </Link>
+                            
                         </div>
                         <div className="d-flex align-items-center mt-lg-5 mb-4">
                             {userLikedPost ? (
@@ -143,7 +150,7 @@ const PostDetailPage = () => {
                             <header className="mb-4 text-start">
                                 <h1 className="fw-bolder mb-1">{postDetail.title}</h1>
                                 <div className="text-muted fst-italic mb-2">{formatDate(postDetail.created_at)}</div>
-                                <a className="badge bg-secondary text-decoration-none link-light" href="#!">
+                                <a className="badge bg-primary text-decoration-none" href="#!">
                                     {postDetail.category?.name}
                                 </a>
                             </header>

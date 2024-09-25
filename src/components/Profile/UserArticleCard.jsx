@@ -1,8 +1,11 @@
 import React from 'react';
 import { FaRegThumbsUp, FaRegComments } from "react-icons/fa";
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function UserArticleCard(props) {
+    const {user} = useSelector((state) => state.auth);
     const post = props.post;
     const maxLength = 100;
 
@@ -52,7 +55,8 @@ function UserArticleCard(props) {
                                     <div className="p-2">
                                         <FaRegComments size={20} className='text-dark'/> {post.comments.length}
                                     </div>
-                                    <div className="p-2 fw-bold">
+                                    {/* {user.user_id === post.author.id ? (<>
+                                        <div className="p-2 fw-bold">
                                         UPDATE
                                     </div>
                                     <div className="p-2 text-info fw-bold">
@@ -60,7 +64,8 @@ function UserArticleCard(props) {
                                     </div>
                                     <div className="p-2 text-danger fw-bold">
                                         ARCHIVE
-                                    </div>
+                                    </div></>) : (<Link to={`/author/profile/${post}`}>Read More..</Link>)} */}
+                                    
                                 </div>
                             </div>
                         </div>

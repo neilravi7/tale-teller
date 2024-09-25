@@ -124,7 +124,7 @@ const AuthorProfile = () => {
     }
 
     return (
-        <section className="bg-light py-3 py-md-5 py-xl-8">
+        <section className="bg-info-subtle py-3 py-md-5 py-xl-8">
             <div className="container">
                 <div className="row justify-content-md-center">
                     <div className="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
@@ -183,7 +183,7 @@ const AuthorProfile = () => {
                         <div className="card widget-card border-light shadow-sm">
                             <div className="card-body p-4">
                                 <h2>Posts</h2>
-                                {posts.length === 0 && <div className='container p-5 text-center'>You have not added any post yet.</div>}
+                                {posts.length === 0 && <div className='container p-5 text-center'>This Author have not added any post yet.</div>}
                                 { posts.map((post, index) => (<UserArticleCard key={index} post={post}/>))}
                             </div>
                         </div>
