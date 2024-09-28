@@ -64,7 +64,7 @@ https://talesblog.netlify.app/
 
 ## Technology Stack:
   - Python/Django as Backend
-  - Postgres as Backend
+  - Postgres as Database
   - Frontend: React/Vite, Redux, Framer-Motion, React-Scroll
   - Bash Scripting Deployment
   - Render and Natlify for Hosting.
