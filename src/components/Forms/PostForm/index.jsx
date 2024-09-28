@@ -1,23 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Alert from 'react-bootstrap/Alert';
 import { API_URL } from '../../../Helper/urls';
 import { requestCreator } from '../../../Helper/utils';
 import { toast } from 'react-toastify';
+import { Spinner } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 
 function PostForm(props) {
-    const { error, inProgress, success, user } = useSelector((state) => state.auth)
+    const navigate = useNavigate();
+    const { error, inProgress, success, user } = useSelector((state) => state.auth);
     const [validated, setValidated] = useState(false);
     const [formData, setFormData] = useState({
         title: "",
         content: "",
         category: '',
-        tags: ["Travel", "Development"]
+        tags: ["Travel", "Development"],
     });
+
+    const [loading, setLoading] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
+
+    useEffect(() => {
+        console.log("Loading state updated:", loading);
+        console.log("Submitting state updated:", submitting);
+    }, [loading, submitting]);
 
     function handleInput(e) {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,32 +39,40 @@ function PostForm(props) {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.stopPropagation();
+            return;
         }
         setValidated(true);
+        setLoading(true);
+        setSubmitting(true);
+
         const { title, content, category, tags } = formData;
         const URL = API_URL.createPost();
         const requestOption = requestCreator("POST", { title, content, category, tags }, true);
-        fetch(URL, requestOption).then((response) => {
-            console.log("response.status: ", response.status);
-            if (response.status === 201) {
-                toast.success("New Post Added");
-            } else {
-                toast.error("Unable to create post");
-            }
-        })
+
+        fetch(URL, requestOption)
+            .then((response) => {
+                if (response.status === 201) {
+                    toast.success("New Post Added");
+                    return response.json();                    
+                } else {
+                    toast.error("Unable to create post");
+                }
+            }).then((data) => {
+                navigate(`/post/${data.slug}`);
+            })
+            .finally(() => {
+                setLoading(false);
+                setSubmitting(false);
+            });
     };
 
     return (
         <>
-            {
-                error &&
+            {error && (
                 <div className='container'>
-                    <Alert variant={"danger"}>
-                        {error}
-                    </Alert>
+                    <Alert variant={"danger"}>{error}</Alert>
                 </div>
-            }
-
+            )}
             <div className='container text-start'>
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <FloatingLabel controlId="title" label="Post Title" className="mb-2">
@@ -65,19 +84,17 @@ function PostForm(props) {
                             onChange={handleInput}
                             required
                         />
-                        <Form.Control.Feedback type="invalid">
-                            Required Field.
-                        </Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Required Field.</Form.Control.Feedback>
                     </FloatingLabel>
 
                     <FloatingLabel controlId="floatingSelect" label="Post Category" className="mb-2">
                         <Form.Select
-                            name="category" // Make sure the select has a name
-                            value={formData.category} // Bind value to the state
-                            onChange={handleInput} // Handle select change
+                            name="category"
+                            value={formData.category}
+                            onChange={handleInput}
                             required
                         >
-                            <option value="">Open this select menu</option> {/* Default option */}
+                            <option value="">Open this select menu</option>
                             <option value="8efac074-ab6e-41fe-b479-38f0713b30be">Lifestyle</option>
                             <option value="00394406-5e68-4bdc-8f71-fac75e8fc2ae">Travel</option>
                             <option value="c656d564-5eb6-4ea8-aef5-ee6b5975ed78">Beauty and fashion</option>
@@ -93,10 +110,9 @@ function PostForm(props) {
                             <option value="7331ccd2-d240-4ae2-b65a-9eac62df2228">Politics</option>
                             <option value="8c3cfc20-7d13-4973-b911-a87e0a96b4ba">Fitness-blogger</option>
                         </Form.Select>
-                        <Form.Control.Feedback type="invalid">
-                            Required Field.
-                        </Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">Required Field.</Form.Control.Feedback>
                     </FloatingLabel>
+
                     <FloatingLabel controlId="content" label="Content" className="mb-2">
                         <Form.Control
                             as="textarea"
@@ -107,14 +123,15 @@ function PostForm(props) {
                             onChange={handleInput}
                             required
                         />
-                        <Form.Control.Feedback type="invalid">
-                            Required Field.
-                        </Form.Control.Feedback>
-
+                        <Form.Control.Feedback type="invalid">Required Field.</Form.Control.Feedback>
                     </FloatingLabel>
 
-                    <Button variant="primary" size="lg" className="w-100 mt-3" type="submit" disabled={inProgress}>
-                        Add New Post
+                    <Button variant="primary" size="lg" className="w-100 mt-3" type="submit" disabled={submitting}>
+                        {!loading ? "Add New Post" : (
+                            <>
+                                <Spinner animation="grow" variant="light" /> Creating...
+                            </>
+                        )}
                     </Button>
                 </Form>
             </div>

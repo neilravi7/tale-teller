@@ -1,7 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- License: MIT. Made by hicon: https://hicon.me/ -->
-<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M9.49997 12.4L5 17.7999" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M9.49997 12.4L5 7" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<line x1="18" y1="18" x2="10" y2="18" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- License: CC0. Made by SVG Repo: https://www.svgrepo.com/svg/148389/paper -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<polygon style="fill:#FFB833;" points="367.304,16.696 367.304,495.304 189.217,495.304 133.565,256 189.217,16.696 "/>
+<rect x="11.13" y="16.696" style="fill:#FFD485;" width="178.087" height="478.609"/>
+<polygon style="fill:#403A3A;" points="278.261,83.478 278.261,150.261 189.217,150.261 166.957,116.87 189.217,83.478 "/>
+<rect x="100.174" y="83.478" style="fill:#605757;" width="89.043" height="66.783"/>
+<rect x="439.652" y="445.217" style="fill:#403A3A;" width="33.391" height="66.783"/>
+<path style="fill:#FFD485;" d="M456.348,0c0,0-55.67,63.2-29.61,138.017l29.61,44.522l29.61-44.522
+	C512.018,63.2,456.348,0,456.348,0z"/>
+<polygon style="fill:#FF4F2A;" points="422.957,266.017 422.957,467.478 489.739,467.478 489.739,266.017 456.348,232.626 "/>
+<polygon style="fill:#403A3A;" points="411.826,138.017 422.957,266.017 489.739,266.017 500.87,138.017 "/>
 </svg>

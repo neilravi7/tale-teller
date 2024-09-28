@@ -3,7 +3,7 @@ import { FaSquareGithub, FaSquareXTwitter, FaSquareFacebook } from "react-icons/
 
 const Footer = (props) => {
     return (
-        <footer className="border-top">
+        <footer className="border-top bg-light">
             <div className="container p-5 ">
                 <div className="row gx-4 gx-lg-5 justify-content-center">
                     <div className="col-md-10 col-lg-8 col-xl-7">

@@ -1,18 +1,19 @@
 import { useSelector } from 'react-redux'
 import LoginForm from '../components/Forms/AuthForm/LoginForm'
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PostForm from '../components/Forms/PostForm';
 
 
 const PostPage = () => {
     const {isAuthenticated} = useSelector((state) => state.auth);
     const navigate = useNavigate();
+    const location = useLocation();
 
     
     useEffect(()=>{
         if(!isAuthenticated){
-            navigate("/auth/login");
+            navigate("/auth/login", {state:{location}});
         }
     })
     

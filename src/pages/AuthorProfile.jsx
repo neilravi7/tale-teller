@@ -8,6 +8,7 @@ import UserArticleCard from '../components/Profile/UserArticleCard';
 import Button from 'react-bootstrap/Button';
 import { addFollower, removeFollower } from '../redux/actions/auth';
 import {updateUserProfile} from '../redux/actions/users';
+import Loader from '../components/Loader';
 
 
 const AuthorProfile = () => {
@@ -63,7 +64,7 @@ const AuthorProfile = () => {
     }
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     const handleFollowing = () => {
@@ -133,6 +134,7 @@ const AuthorProfile = () => {
                     </div>
                 </div>
             </div>
+            {loading && <Loader/>}
             <div className="container">
                 <div className="row gy-4 gy-lg-0">
                     <div className="col-12 col-lg-4 col-xl-3">

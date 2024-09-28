@@ -7,6 +7,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { motion } from "framer-motion";
+import Loader from "../components/Loader";
+
 
 
 const PostHomePage = () => {
@@ -14,6 +16,7 @@ const PostHomePage = () => {
     const dispatch = useDispatch();
 
     const [validated, setValidated] = useState(false);
+    const [loading, setLoading] = useState(false);
     
     const [formData, setFormData] = useState({
         query: ''
@@ -24,6 +27,7 @@ const PostHomePage = () => {
     }
 
     const handleSubmit = (event) => {
+        setLoading(true);
         event.preventDefault();
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -31,10 +35,13 @@ const PostHomePage = () => {
         }
         setValidated(true);
         dispatch(fetchPostData(formData.query));
+        setLoading(false);
     }
 
     useEffect(() => {
+        setLoading(true);
         dispatch(fetchPostData(formData.query));
+        setLoading(false);
     }, [dispatch]);
 
     return (
@@ -71,15 +78,11 @@ const PostHomePage = () => {
                         </Row>
                     </div>
                 </div>
-                <div className="row gx-5 mt-2">
+                
+                {posts.length === 0 ? (<Loader />):(<div className="row gx-5 mt-2">
                     {posts.map((post, index) => (<PostCard key={index} post={post} />))}
-                </div>
-                <div className="text-end mb-5 mb-xl-0">
-                    <a className="text-decoration-none" href="#!">
-                        More stories
-                        <i className="bi bi-arrow-right" />
-                    </a>
-                </div>
+                </div>)}
+                
             </div>
         </section>
     )

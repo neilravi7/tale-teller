@@ -1,3 +1,4 @@
+import '../components/PostCard/card.css';
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FaRegThumbsUp, FaThumbsUp, FaRegComments } from "react-icons/fa";
@@ -10,12 +11,14 @@ import CommentForm from "../components/Forms/CommentForm";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 
 
+
 const PostDetailPage = () => {
     const { isAuthenticated, user } = useSelector((state) => state.auth);
     const slug = useParams().postSlug;
     const [userLikedPost, setUserLikedPost] = useState(false);
     const [postDetail, setPostDetail] = useState({});
     const [author, setAuthor] = useState('');
+    const [loading, setLoading] = useState(false);
 
     function getLikeId(likes){
         const likeId = likes.filter((like) => like.user.id === user.user_id);
@@ -83,6 +86,7 @@ const PostDetailPage = () => {
     };
 
     useEffect(() => {
+        setLoading(true);
         const fetchPostDetails = async () => {
             const URL = API_URL.getPost(slug);
             const requestOption = requestCreator("GET", {}, false);
@@ -100,6 +104,7 @@ const PostDetailPage = () => {
             } catch (error) {
                 console.error(error.message);
             }
+        setLoading(false);
         };
 
         fetchPostDetails();
@@ -108,25 +113,22 @@ const PostDetailPage = () => {
     return (
         <section className="py-5">
             <div className="container px-5 my-5">
-                <div className="row gx-5">
+                <div className={loading ? "row gx-5 loading-skeleton" : "row gx-5"}>
                     <div className="col-lg-3">
-                        
                         <div className="d-flex align-items-center mt-lg-5 mb-4">
-                            
-                                <img
-                                    className="img-fluid rounded-circle"
-                                    src="https://placebeard.it/50x50"
-                                    alt="..."
-                                />
-                                <Link to={`/author/profile/${author}` } className="text-decoration-none">
-                                    <div className="ms-3">
-                                        <div className="fw-bold">
-                                            {postDetail.author?.first_name} {postDetail.author?.last_name}
-                                        </div>
-                                        <div className="text-muted">News, Developer</div>
+                            <img
+                                className="img-fluid rounded-circle"
+                                src="https://placebeard.it/50x50"
+                                alt="..."
+                            />
+                            <Link to={`/author/profile/${author}` } className="text-decoration-none">
+                                <div className="ms-3">
+                                    <div className="fw-bold">
+                                        {postDetail.author?.first_name} {postDetail.author?.last_name}
                                     </div>
-                                </Link>
-                            
+                                    <div className="text-muted">News, Developer</div>
+                                </div>
+                            </Link>
                         </div>
                         <div className="d-flex align-items-center mt-lg-5 mb-4">
                             {userLikedPost ? (

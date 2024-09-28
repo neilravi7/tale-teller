@@ -16,6 +16,7 @@ export function fetchPostData(query){
             })
             .then((data) => {
                 dispatch(updatePosts(data));
+                return {success:true}
             })
     }
 } 

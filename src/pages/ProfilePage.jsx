@@ -6,6 +6,7 @@ import { API_URL } from "../Helper/urls"
 import { toast } from 'react-toastify';
 import ProfileForm from '../components/Forms/ProfileForm';
 import UserArticleCard from '../components/Profile/UserArticleCard';
+import Loader from "../components/Loader";
 
 
 const ProfilePage = () => {
@@ -64,7 +65,7 @@ const ProfilePage = () => {
     }
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     return (
@@ -77,7 +78,7 @@ const ProfilePage = () => {
                     </div>
                 </div>
             </div>
-            <div className="container">
+            {loading ? <Loader /> : <div className="container">
                 <div className="row gy-4 gy-lg-0">
                     <div className="col-12 col-lg-4 col-xl-3">
                         <div className="row gy-4">
@@ -220,7 +221,7 @@ const ProfilePage = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
         </section>
     );
 };
